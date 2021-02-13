@@ -2,6 +2,8 @@
 
 This is Pixels, a Student Activity in faculty of engineering helwan university
 
+[pixels](assets\pixels_comm.jpg)
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.
