@@ -1,0 +1,96 @@
+import 'dart:io';
+
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:pixels/backend/get_data.dart';
+import 'package:pixels/pages/courses_data_page/courses_data_page.dart';
+import 'provider/bottom_navbar_provider.dart';
+import 'package:pixels/pages/home/home.dart';
+import 'package:pixels/pages/splash_screen.dart';
+import 'package:pixels/pages/tracks_page/tracks_page.dart';
+import 'package:pixels/provider/track_provider.dart';
+import 'package:provider/provider.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert' as convert;
+
+import 'models/track.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  getData(trackUrl, trackFileName) async {
+    var dir = await getTemporaryDirectory();
+    File file = new File(dir.path + "/" + trackFileName);
+    var response = await http.get(trackUrl);
+
+    if (response.statusCode == 200) {
+      var jsonResponse = response.body;
+      var jsonTrack = convert.jsonDecode(jsonResponse) as List;
+
+      //save json in local file
+      file.writeAsStringSync(jsonResponse, flush: true, mode: FileMode.write);
+      return jsonTrack.map((json) => TrackModel.fromJson(json)).toList();
+    } else {
+      return null;
+    }
+  }
+
+  @override
+  void initState() {
+    getData(Tracks.csTrack, 'csTrack.json');
+    getData(Tracks.powerTrack, 'powerTrack.json');
+    getData(Tracks.mechanicalTrack, 'mechTrack.json');
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle.dark.copyWith(
+        statusBarColor: const Color(0xFF000343),
+        statusBarIconBrightness: Brightness.light,
+      ),
+    );
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<TrackProvider>.value(value: TrackProvider()),
+        ChangeNotifierProvider<BottomNavBarProvider>.value(
+            value: BottomNavBarProvider()),
+      ],
+      builder: (context, child) {
+        return MaterialApp(
+          title: 'Pixels',
+          debugShowCheckedModeBanner: false,
+          theme: theme,
+          initialRoute: SplashScreen.routeName,
+          routes: {
+            SplashScreen.routeName: (context) => SplashScreen(),
+            Home.routeName: (context) => Home(),
+            CoursesDataPage.routeName: (context) => CoursesDataPage(),
+            TrackPage.routeName: (context) => TrackPage(),
+          },
+        );
+      },
+    );
+  }
+}
+
+ThemeData theme = ThemeData.dark().copyWith(
+  primaryColor: const Color(0xFF000343),
+  accentColor: Colors.indigo[800],
+  appBarTheme: AppBarTheme(
+    color: Colors.transparent,
+    centerTitle: true,
+    elevation: 0.0,
+  ),
+  scaffoldBackgroundColor: const Color(0xFF000343),
+  visualDensity: VisualDensity.adaptivePlatformDensity,
+);
