@@ -2,7 +2,7 @@
 
 This is Pixels, a Student Activity in faculty of engineering helwan university
 
-[pixels](assets\pixels_comm.jpg)
+![pixels](https://github.com/Mmd7t/pixels/blob/master/assets/pixels_comm.jpg?raw=true)
 
 ## Getting Started
 
