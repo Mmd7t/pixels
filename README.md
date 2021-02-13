@@ -1,6 +1,6 @@
 # pixels
 
-This is Pixels, a Student Activity in faculty of engineering helwan university. 
+This is Pixels, a Student Activity in faculty of engineering helwan university
 
 ## Getting Started
 
