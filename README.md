@@ -1,6 +1,6 @@
 # pixels
 
-A new Flutter project.
+This is Pixels, a Student Activity in faculty of engineering helwan university. 
 
 ## Getting Started
 
