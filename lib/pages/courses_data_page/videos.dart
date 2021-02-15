@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:pixels/models/track.dart';
 import 'package:pixels/provider/track_provider.dart';
 import 'package:pixels/pages/courses_data_page/course_card.dart';
 import 'package:provider/provider.dart';
@@ -56,29 +57,23 @@ class _VideosState extends State<Videos> with SingleTickerProviderStateMixin {
         if (!snapshot.hasData) {
           return Center(child: CircularProgressIndicator());
         } else {
-          var data = snapshot.data[widget.index];
-          List videosList = [
-            data.video1,
-            data.video2,
-            data.video3,
-            data.video4,
-            data.video5
-          ];
+          TrackModel data = snapshot.data[widget.index];
+
           return Container(
             alignment: Alignment.center,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: List.generate(
-                videosList.length,
+                data.videos.length,
                 (indexx) => Column(
                   children: [
-                    (videosList[indexx] != '')
+                    (data.videos[indexx] != '')
                         ? ScaleTransition(
                             scale: animation,
                             child: CourseCard(
                               text: 'Video ${indexx + 1}',
                               onClick: () {
-                                _launchUniversalLink(videosList[indexx]);
+                                _launchUniversalLink(data.videos[indexx]);
                               },
                             ),
                           )

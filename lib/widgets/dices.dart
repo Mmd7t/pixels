@@ -16,7 +16,6 @@ class DiscData {
       _rng.nextInt(255),
       _rng.nextInt(255),
     );
-    // color = Colors.white;
     size = _rng.nextDouble() * 40 + 10;
     alignment = Alignment(
       _rng.nextDouble() * 2 - 1,
@@ -27,9 +26,9 @@ class DiscData {
 
 final discs = <DiscData>[];
 
-void makeDiscs(numberOfDiscs) {
+void makeDiscs() {
   discs.clear();
-  for (int i = 0; i < numberOfDiscs; i++) {
+  for (int i = 0; i < 60; i++) {
     discs.add(DiscData());
   }
 }
@@ -43,14 +42,14 @@ class _VariousDiscsState extends State<VariousDiscs> {
   @override
   void initState() {
     super.initState();
-    makeDiscs(60);
+    makeDiscs();
   }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => setState(() {
-        makeDiscs(60);
+        makeDiscs();
       }),
       child: Stack(
         children: [

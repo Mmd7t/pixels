@@ -27,7 +27,7 @@ class _InfoTimelineState extends State<InfoTimeline> {
           if (cStep < 2) {
             setState(() {
               ++cStep;
-              makeDiscs(60);
+              makeDiscs();
             });
           }
         },
@@ -35,7 +35,7 @@ class _InfoTimelineState extends State<InfoTimeline> {
           if (cStep > 0) {
             setState(() {
               --cStep;
-              makeDiscs(60);
+              makeDiscs();
             });
           }
         },

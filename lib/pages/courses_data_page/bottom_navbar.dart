@@ -75,7 +75,10 @@ class _MBottomNavBarState extends State<MBottomNavBar> {
                     splashColor: Colors.transparent,
                     color: Colors.white,
                     onPressed: () {
-                      makeDiscs(50);
+                      setState(() {
+                        makeDiscs();
+                      });
+
                       cPage.setCurrentPage(index);
                     },
                   ),

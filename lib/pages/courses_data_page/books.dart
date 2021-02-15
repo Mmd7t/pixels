@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pixels/models/track.dart';
 import 'package:pixels/provider/track_provider.dart';
 import 'package:pixels/pages/courses_data_page/course_card.dart';
 import 'package:provider/provider.dart';
@@ -43,24 +44,22 @@ class _BooksState extends State<Books> with SingleTickerProviderStateMixin {
         if (!snapshot.hasData) {
           return Center(child: CircularProgressIndicator());
         } else {
-          var data = snapshot.data[widget.index];
-
-          List booksList = [data.book1, data.book2, data.book3];
+          TrackModel data = snapshot.data[widget.index];
           return Container(
             alignment: Alignment.center,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: List.generate(
-                booksList.length,
+                data.books.length,
                 (indexx) => Column(
                   children: [
-                    (booksList[indexx] != '')
+                    (data.books[indexx] != '')
                         ? ScaleTransition(
                             scale: animation,
                             child: CourseCard(
                               text: 'Book ${indexx + 1}',
                               onClick: () {
-                                launch(booksList[indexx]);
+                                launch(data.books[indexx]);
                               },
                             ),
                           )

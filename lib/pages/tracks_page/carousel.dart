@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:pixels/models/track.dart';
 import 'package:pixels/provider/track_provider.dart';
 import 'package:pixels/widgets/blur_filter.dart';
 import 'package:pixels/widgets/dices.dart';
@@ -23,7 +24,7 @@ class _CarouselState extends State<Carousel> {
       child: FutureBuilder(
         future: track.selectedTrack(),
         builder: (context, snapshot) {
-          var data = snapshot.data;
+          List<TrackModel> data = snapshot.data;
           if (!snapshot.hasData) {
             return Center(child: CircularProgressIndicator());
           } else {
@@ -59,10 +60,27 @@ class _CarouselState extends State<Carousel> {
                                   data[index].name,
                                   style: Theme.of(context)
                                       .textTheme
-                                      .subtitle1
+                                      .headline6
                                       .copyWith(fontWeight: FontWeight.bold),
                                 ),
-                                Spacer(),
+                                Expanded(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(12.0),
+                                    child: Text(
+                                      data[index].description,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .subtitle1
+                                          .copyWith(
+                                            height: 1.5,
+                                            wordSpacing: 1.2,
+                                          ),
+                                      textAlign: TextAlign.center,
+                                      softWrap: true,
+                                      textWidthBasis: TextWidthBasis.parent,
+                                    ),
+                                  ),
+                                ),
                                 FlatButton(
                                   onPressed: () {
                                     circularNavigate(
@@ -83,7 +101,7 @@ class _CarouselState extends State<Carousel> {
                                     vertical: 12,
                                   ),
                                   color: Colors.pink[800].withOpacity(0.8),
-                                  child: Text('Learn More'),
+                                  child: Text('See Resources'),
                                 ),
                               ],
                             ),
@@ -121,7 +139,7 @@ class _CarouselState extends State<Carousel> {
                 viewportFraction: 0.8,
                 onScrolled: (value) {
                   setState(() {
-                    makeDiscs(60);
+                    makeDiscs();
                   });
                 },
               ),

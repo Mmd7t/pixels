@@ -23,7 +23,7 @@ class _PixelsInfoState extends State<PixelsInfo> {
             scrollDirection: Axis.vertical,
             onPageChanged: (value) {
               setState(() {
-                makeDiscs(60);
+                makeDiscs();
               });
             },
             itemCount: 2,

@@ -4,7 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pixels/backend/get_data.dart';
+import 'package:pixels/backend/posts.dart';
 import 'package:pixels/pages/courses_data_page/courses_data_page.dart';
+import 'package:pixels/pages/courses_resources/cources_resources_page.dart';
+import 'models/news.dart';
 import 'provider/bottom_navbar_provider.dart';
 import 'package:pixels/pages/home/home.dart';
 import 'package:pixels/pages/splash_screen.dart';
@@ -30,7 +33,6 @@ class _MyAppState extends State<MyApp> {
     var dir = await getTemporaryDirectory();
     File file = new File(dir.path + "/" + trackFileName);
     var response = await http.get(trackUrl);
-
     if (response.statusCode == 200) {
       var jsonResponse = response.body;
       var jsonTrack = convert.jsonDecode(jsonResponse) as List;
@@ -43,12 +45,27 @@ class _MyAppState extends State<MyApp> {
     }
   }
 
+  getPostsSheet() async {
+    var dir = await getTemporaryDirectory();
+    File file = new File(dir.path + "/" + 'posts.json');
+    var response = await http.get(Posts.posts);
+    if (response.statusCode == 200) {
+      var jsonResponse = response.body;
+      var jsonNews = convert.jsonDecode(jsonResponse) as List;
+      file.writeAsStringSync(jsonResponse, flush: true, mode: FileMode.write);
+      return jsonNews.map((json) => NewsModel.fromJson(json)).toList();
+    } else {
+      return null;
+    }
+  }
+
   @override
   void initState() {
+    super.initState();
     getData(Tracks.csTrack, 'csTrack.json');
     getData(Tracks.powerTrack, 'powerTrack.json');
     getData(Tracks.mechanicalTrack, 'mechTrack.json');
-    super.initState();
+    getPostsSheet();
   }
 
   @override
@@ -74,6 +91,7 @@ class _MyAppState extends State<MyApp> {
           routes: {
             SplashScreen.routeName: (context) => SplashScreen(),
             Home.routeName: (context) => Home(),
+            CourcesResourcesPage.routeName: (context) => CourcesResourcesPage(),
             CoursesDataPage.routeName: (context) => CoursesDataPage(),
             TrackPage.routeName: (context) => TrackPage(),
           },
@@ -86,7 +104,7 @@ class _MyAppState extends State<MyApp> {
 ThemeData theme = ThemeData.dark().copyWith(
   primaryColor: const Color(0xFF000343),
   accentColor: Colors.indigo[800],
-  appBarTheme: AppBarTheme(
+  appBarTheme: const AppBarTheme(
     color: Colors.transparent,
     centerTitle: true,
     elevation: 0.0,
