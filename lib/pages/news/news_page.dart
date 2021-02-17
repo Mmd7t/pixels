@@ -1,11 +1,29 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
-import 'package:pixels/backend/posts.dart';
-import 'package:pixels/models/news.dart';
+import 'package:http/http.dart' as http;
+import 'package:pixels/backend/face_posts_data.dart';
+import 'package:pixels/constants.dart';
+import 'package:pixels/models/facebook_posts.dart';
 import 'package:pixels/pages/news/post_box.dart';
 import 'package:pixels/pages/news/post_btn.dart';
+import 'package:pixels/pages/news/post_with_image.dart';
 import 'package:pixels/widgets/dices.dart';
 
-class NewsPage extends StatelessWidget {
+class NewsPage extends StatefulWidget {
+  @override
+  _NewsPageState createState() => _NewsPageState();
+}
+
+class _NewsPageState extends State<NewsPage> {
+  FacePostsServices facePostsServices = FacePostsServices();
+  @override
+  void initState() {
+    super.initState();
+    facePostsServices.fetchPostData();
+    facePostsServices.fetchAttachmentsData();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,21 +34,21 @@ class NewsPage extends StatelessWidget {
           ),
           Align(
             alignment: Alignment.center,
-            child: FutureBuilder(
-              future: Posts.getPostsSheet(),
+            child: StreamBuilder(
+              stream: facePostsServices.stFetchPostData(),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
-                  List<NewsModel> data = snapshot.data;
+                  List<Data> data = snapshot.data;
                   return ListView.builder(
                     itemCount: data.length,
                     itemBuilder: (context, index) {
-                      NewsModel newsModel = data[index];
+                      Data facebookPostsData = data[index];
                       return Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          PostBox(
-                            description: newsModel.description,
-                            imgUrl: newsModel.imgs[0],
+                          PostWithImage(
+                            description: facebookPostsData.message,
+                            imgUrl: facebookPostsData.fullPicture,
                           ),
                           Padding(
                             padding:

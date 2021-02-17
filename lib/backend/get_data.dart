@@ -5,13 +5,6 @@ import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
 class Tracks {
-  static const String csTrack =
-      'https://script.google.com/macros/s/AKfycbw6SsPYaeaBsW7tPioaaEbidRtwGFEIGuf9UgIpVRgj-Q2gUMGn0xEP/exec';
-  static const String powerTrack =
-      'https://script.google.com/macros/s/AKfycbznQl9P4dNE98pUrbdcrdNZrMM0cC2Lzyc-jUaeGjE0Igeg6bg3U_ojpQ/exec';
-  static const String mechanicalTrack =
-      'https://script.google.com/macros/s/AKfycbzwGx8IndHddTgIH5p3eDb1lDvwCKmFRS4ZNxMB3UfqgYDSsfaCmwPV/exec';
-
   static Future<List<TrackModel>> getTrackFromSheet({
     trackUrl,
     trackFileName,
