@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pixels/constants.dart';
 import 'package:pixels/pages/courses_data_page/courses_data_page.dart';
@@ -73,16 +72,6 @@ class _MyAppState extends State<MyApp> {
         return MaterialApp(
           title: 'Pixels',
           debugShowCheckedModeBanner: false,
-          localizationsDelegates: [
-            GlobalCupertinoLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-          ],
-          supportedLocales: [
-            Locale("ar", "EG"),
-            Locale("en", "US"),
-          ],
-          locale: Locale("en", "US"),
           theme: theme,
           initialRoute: SplashScreen.routeName,
           routes: {

@@ -5,6 +5,7 @@ class TrackModel {
   List videos;
   List courses;
   List books;
+  List drive;
 
   TrackModel({
     this.name,
@@ -13,6 +14,7 @@ class TrackModel {
     this.videos,
     this.courses,
     this.books,
+    this.drive,
   });
 
   factory TrackModel.fromJson(dynamic json) {
@@ -23,6 +25,7 @@ class TrackModel {
       videos: json['videos'],
       courses: json['courses'],
       books: json['books'],
+      drive: json['drive'],
     );
   }
 
@@ -33,5 +36,6 @@ class TrackModel {
         "videos": videos,
         "courses": courses,
         "books": books,
+        "drive": drive,
       };
 }

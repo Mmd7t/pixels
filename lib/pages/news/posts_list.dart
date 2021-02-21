@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:pixels/constants.dart';
 import 'package:pixels/models/facebook_posts.dart';
 import 'package:pixels/pages/news/post_btn.dart';
 import 'package:pixels/widgets/blur_filter.dart';
 import 'package:provider/provider.dart';
+import 'package:share/share.dart';
 
 import 'post_boxes/post_box.dart';
 
@@ -10,21 +12,34 @@ class PostsList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<Data> data = Provider.of<List<Data>>(context);
-    return ListView.builder(
+    return ListView.separated(
       itemCount: data.length,
+      separatorBuilder: (context, index) => Divider(
+        color: Colors.pink[700],
+        endIndent: 20,
+        indent: 20,
+        height: 20,
+        thickness: 1,
+      ),
       itemBuilder: (context, index) {
         var time = (data[index].createdTime.split('T'))[0];
+        var postUrl = data[index].attachments.data[0].url;
         return Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             BlurFilter(
               sigma: 5.0,
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.only(
+                  topRight: Radius.circular(20),
+                  bottomLeft: Radius.circular(20)),
               child: Container(
                 padding: const EdgeInsets.all(10),
-                margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 3),
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
+                  border: Border.all(color: Colors.pink[700], width: 2),
+                  borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(20),
+                      bottomLeft: Radius.circular(20)),
                   color: Colors.white.withOpacity(0.2),
                 ),
                 child: Column(
@@ -43,16 +58,41 @@ class PostsList extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(width: 8),
-                        Text(
-                          'Pixels Egypt',
-                          style: Theme.of(context).textTheme.subtitle1.copyWith(
-                                fontWeight: FontWeight.bold,
-                              ),
+                        Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              'Pixels Egypt',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .subtitle1
+                                  .copyWith(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                            ),
+                            const SizedBox(height: 5),
+                            Text(
+                              '$time',
+                              style: Theme.of(context).textTheme.caption,
+                            ),
+                          ],
                         ),
                         Spacer(),
-                        Text(
-                          '$time',
-                          style: Theme.of(context).textTheme.caption,
+                        PopupMenuButton(
+                          onSelected: (value) {
+                            launchUniversalLink(postUrl);
+                          },
+                          color:
+                              Theme.of(context).primaryColor.withOpacity(0.6),
+                          elevation: 4,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15),
+                            side: BorderSide(color: Colors.pink[700], width: 2),
+                          ),
+                          itemBuilder: (context) => [
+                            PopupMenuItem(
+                                child: Text('Go to Facebook Post'), value: 1)
+                          ],
                         ),
                       ],
                     ),
@@ -64,20 +104,16 @@ class PostsList extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10.0)
+              padding: const EdgeInsets.symmetric(horizontal: 15.0)
                   .copyWith(bottom: 8.0),
               child: Row(
                 children: [
-                  PostBtn(
-                    isFavBtn: true,
-                    icon: Icons.favorite_border,
-                    onClick: () {},
-                  ),
                   const SizedBox(width: 8.0),
                   PostBtn(
-                    isFavBtn: false,
                     icon: Icons.share_outlined,
-                    onClick: () {},
+                    onClick: () {
+                      Share.share(postUrl);
+                    },
                   ),
                 ],
               ),

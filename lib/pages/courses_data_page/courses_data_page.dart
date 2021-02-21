@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pixels/pages/courses_data_page/drive.dart';
 import 'package:pixels/widgets/dices.dart';
 import 'package:provider/provider.dart';
 import '../../provider/bottom_navbar_provider.dart';
@@ -16,12 +17,11 @@ class CoursesDataPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var cPage = Provider.of<BottomNavBarProvider>(context);
-    // int indexOfSelectedCourse = ModalRoute.of(context).settings.arguments;
     var pages = [
       Books(indexOfSelectedCourse),
       Videos(indexOfSelectedCourse),
       Articles(indexOfSelectedCourse),
-      Container(),
+      Drive(indexOfSelectedCourse),
     ];
     return Scaffold(
       body: Stack(

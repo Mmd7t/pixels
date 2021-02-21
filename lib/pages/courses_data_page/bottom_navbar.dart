@@ -10,17 +10,17 @@ class MBottomNavBar extends StatefulWidget {
 }
 
 class _MBottomNavBarState extends State<MBottomNavBar> {
-  var iconsList = [
+  static const iconsList = [
     Icons.book_rounded,
     Icons.video_collection_rounded,
     Icons.dashboard_rounded,
-    Icons.insert_drive_file_rounded,
+    Icons.folder,
   ];
-  var iconsOutlineList = [
+  static const iconsOutlineList = [
     Icons.book_outlined,
     Icons.video_collection_outlined,
     Icons.dashboard_outlined,
-    Icons.insert_drive_file_outlined,
+    Icons.folder_open_rounded,
   ];
 
   @override
