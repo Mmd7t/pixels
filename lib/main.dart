@@ -2,12 +2,12 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:pixels/backend/face_posts_data.dart';
 import 'package:pixels/constants.dart';
-import 'package:pixels/models/facebook_posts.dart';
 import 'package:pixels/pages/courses_data_page/courses_data_page.dart';
 import 'package:pixels/pages/courses_resources/cources_resources_page.dart';
+import 'backend/face_posts_data.dart';
 import 'provider/bottom_navbar_provider.dart';
 import 'package:pixels/pages/home/home.dart';
 import 'package:pixels/pages/splash_screen.dart';
@@ -45,27 +45,12 @@ class _MyAppState extends State<MyApp> {
     }
   }
 
-  // getPostsSheet() async {
-  //   var dir = await getTemporaryDirectory();
-  //   File file = new File(dir.path + "/" + 'posts.json');
-  //   var response = await http.get(Posts.posts);
-  //   if (response.statusCode == 200) {
-  //     var jsonResponse = response.body;
-  //     var jsonNews = convert.jsonDecode(jsonResponse) as List;
-  //     file.writeAsStringSync(jsonResponse, flush: true, mode: FileMode.write);
-  //     return jsonNews.map((json) => NewsModel.fromJson(json)).toList();
-  //   } else {
-  //     return null;
-  //   }
-  // }
-
   @override
   void initState() {
     super.initState();
     getData(csTrackUrl, 'csTrack.json');
     getData(powerTrackUrl, 'powerTrack.json');
     getData(mechanicalTrackUrl, 'mechTrack.json');
-    // getPostsSheet();
   }
 
   @override
@@ -81,15 +66,23 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider<TrackProvider>.value(value: TrackProvider()),
         ChangeNotifierProvider<BottomNavBarProvider>.value(
             value: BottomNavBarProvider()),
-        // StreamProvider(
-        //     create: (context) => FacePostsServices().stFetchPostData()),
-        // StreamProvider<List<AttachmentsData>>(
-        //     create: (context) => FacePostsServices().stFetchAttachmentsData()),
+        FutureProvider(
+            create: (context) => FacePostsServices.getFacebookData()),
       ],
       builder: (context, child) {
         return MaterialApp(
           title: 'Pixels',
           debugShowCheckedModeBanner: false,
+          localizationsDelegates: [
+            GlobalCupertinoLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+          ],
+          supportedLocales: [
+            Locale("ar", "EG"),
+            Locale("en", "US"),
+          ],
+          locale: Locale("en", "US"),
           theme: theme,
           initialRoute: SplashScreen.routeName,
           routes: {

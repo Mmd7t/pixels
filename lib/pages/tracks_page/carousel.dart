@@ -18,7 +18,6 @@ class _CarouselState extends State<Carousel> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-
     var track = Provider.of<TrackProvider>(context);
     return Positioned.fill(
       child: FutureBuilder(

@@ -15,6 +15,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.5.0-nullsafety.1"
+  auto_direction:
+    dependency: "direct main"
+    description:
+      name: auto_direction
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.4+1"
   boolean_selector:
     dependency: transitive
     description:
@@ -111,6 +118,11 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_localizations:
+    dependency: "direct main"
+    description: flutter
+    source: sdk
+    version: "0.0.0"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -149,6 +161,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.16.1"
+  linkwell:
+    dependency: "direct main"
+    description:
+      name: linkwell
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.9"
   matcher:
     dependency: transitive
     description:

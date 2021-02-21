@@ -4,7 +4,8 @@ import 'package:pixels/models/track.dart';
 import 'package:pixels/provider/track_provider.dart';
 import 'package:pixels/pages/courses_data_page/course_card.dart';
 import 'package:provider/provider.dart';
-import 'package:url_launcher/url_launcher.dart';
+
+import '../../constants.dart';
 
 class Videos extends StatefulWidget {
   final int index;
@@ -36,19 +37,6 @@ class _VideosState extends State<Videos> with SingleTickerProviderStateMixin {
     super.dispose();
   }
 
-  Future<void> _launchUniversalLink(String url) async {
-    if (await canLaunch(url)) {
-      final bool nativeAppLaunchSucceeded = await launch(
-        url,
-        forceSafariVC: false,
-        universalLinksOnly: true,
-      );
-      if (!nativeAppLaunchSucceeded) {
-        await launch(url, forceSafariVC: true);
-      }
-    }
-  }
-
   Widget build(BuildContext context) {
     var track = Provider.of<TrackProvider>(context);
     return FutureBuilder(
@@ -73,7 +61,7 @@ class _VideosState extends State<Videos> with SingleTickerProviderStateMixin {
                             child: CourseCard(
                               text: 'Video ${indexx + 1}',
                               onClick: () {
-                                _launchUniversalLink(data.videos[indexx]);
+                                launchUniversalLink(data.videos[indexx]);
                               },
                             ),
                           )

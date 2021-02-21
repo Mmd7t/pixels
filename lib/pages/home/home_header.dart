@@ -50,8 +50,8 @@ class HomeLogo extends StatefulWidget {
   _HomeLogoState createState() => _HomeLogoState();
 }
 
-class _HomeLogoState extends State<HomeLogo> with TickerProviderStateMixin {
-  AnimationController _controller;
+class _HomeLogoState extends State<HomeLogo>
+    with SingleTickerProviderStateMixin {
   AnimationController _flipController;
 
   Animation animation;
@@ -71,7 +71,6 @@ class _HomeLogoState extends State<HomeLogo> with TickerProviderStateMixin {
 
   @override
   void dispose() {
-    _controller.dispose();
     _flipController.dispose();
     timer.cancel();
     super.dispose();

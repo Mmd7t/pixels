@@ -1,5 +1,4 @@
-import 'dart:convert';
-
+import 'dart:convert' as convert;
 import 'package:pixels/models/facebook_posts.dart';
 
 import '../constants.dart';
@@ -7,44 +6,41 @@ import 'package:http/http.dart' as http;
 
 class FacePostsServices {
 /*---------------------------------------------------------------------------------*/
-  List data = [];
-  fetchPostData() async {
-    try {
-      final response = await http.get(facebookUrl);
-      if (response.statusCode == 200) {
-        Iterable i = json.decode(response.body)['feed']['data'];
-        data = i.map((e) => Data.fromJson(e)).toList();
-        return data;
-      }
-    } catch (e) {
-      return await e;
+  // static Future<List<Data>> getFacebookData() async {
+  //   var dir = await getTemporaryDirectory();
+  //   File file = new File(dir.path + "/" + 'facebookData.json');
+  //   if (file.existsSync()) {
+  //     print("Loading from cache");
+  //     var jsonData = file.readAsStringSync();
+  //     var jsonTrack = convert.jsonDecode(jsonData)['posts']['data'] as List;
+  //     return jsonTrack.map((json) => Data.fromJson(json)).toList();
+  //   } else {
+  //     print("Loading from API");
+  //     var response = await http.get(facebookUrl);
+
+  //     if (response.statusCode == 200) {
+  //       var jsonResponse = response.body;
+  //       var jsonTrack =
+  //           convert.jsonDecode(jsonResponse)['posts']['data'] as List;
+
+  //       //save json in local file
+  //       file.writeAsStringSync(jsonResponse, flush: true, mode: FileMode.write);
+  //       return jsonTrack.map((json) => Data.fromJson(json)).toList();
+  //     } else {
+  //       return null;
+  //     }
+  //   }
+  // }
+  static Future<List<Data>> getFacebookData() async {
+    print("Loading from API");
+    var response = await http.get(facebookUrl);
+
+    if (response.statusCode == 200) {
+      var jsonResponse = response.body;
+      var jsonTrack = convert.jsonDecode(jsonResponse)['posts']['data'] as List;
+      return jsonTrack.map((json) => Data.fromJson(json)).toList();
+    } else {
+      return null;
     }
   }
-
-  stFetchPostData() async* {
-    yield await fetchPostData();
-  }
-
-/*---------------------------------------------------------------------------------*/
-/*---------------------------------------------------------------------------------*/
-  List attachmentsData = [];
-  fetchAttachmentsData() async {
-    try {
-      final response = await http.get(facebookUrl);
-      if (response.statusCode == 200) {
-        Iterable i =
-            json.decode(response.body)['feed']['data']['attachments']['data'];
-        data = i.map((e) => AttachmentsData.fromJson(e)).toList();
-        return data;
-      }
-    } catch (e) {
-      return await e;
-    }
-  }
-
-  stFetchAttachmentsData() async* {
-    yield await fetchAttachmentsData();
-  }
-/*---------------------------------------------------------------------------------*/
-
 }
