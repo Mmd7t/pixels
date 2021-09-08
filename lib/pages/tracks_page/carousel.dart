@@ -25,10 +25,9 @@ class _CarouselState extends State<Carousel> {
   var scrollControllers;
   @override
   Widget build(BuildContext context) {
-    // var size = MediaQuery.of(context).size;
     var track = Provider.of<TrackProvider>(context);
     return Positioned.fill(
-      child: FutureBuilder(
+      child: FutureBuilder<List<TrackModel>>(
         future: track.selectedTrack(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
@@ -42,7 +41,7 @@ class _CarouselState extends State<Carousel> {
               itemCount: data.length,
               itemBuilder: (context, index, n) {
                 if (index == 0) {
-                  return IgnorePointer(child: SizedBox());
+                  return IgnorePointer(child:const SizedBox());
                 } else {
                   return CarouselCard(
                     name: data[index].name,
@@ -127,7 +126,7 @@ class CarouselCard extends StatelessWidget {
 /*---------------------------------------------------------------------------------------------*/
                   Expanded(
                     child: Container(
-                      margin: const EdgeInsets.all(8.0),
+                      margin: const EdgeInsets.all(5.0),
                       decoration: BoxDecoration(
                         color: Theme.of(context).primaryColor.withOpacity(0.35),
                         borderRadius: BorderRadius.circular(8),
@@ -180,33 +179,36 @@ class CarouselCard extends StatelessWidget {
 /*------------------------------------  See Resources Btn  ------------------------------------*/
 /*---------------------------------------------------------------------------------------------*/
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: TextButton(
-                      style: TextButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 25,
-                          vertical: 12,
-                        ),
-                        backgroundColor: Constants.color2.withOpacity(0.8),
-                      ),
-                      onPressed: () {
-                        cPage.setCurrentPage(0);
-                        circularNavigate(
-                          context,
-                          page: CoursesDataPage(indexOfSelectedCourse: index),
-                          offset: Offset(
-                            size.width / 2,
-                            size.height,
+                    padding: const EdgeInsets.only(bottom: 5),
+                    child: FractionallySizedBox(
+                      widthFactor: 0.95,
+                      child: TextButton(
+                        style: TextButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
                           ),
-                        );
-                      },
-                      child: const Text(
-                        'See Resources',
-                        style: const TextStyle(color: Colors.white),
-                        softWrap: true,
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 25,
+                            vertical: 12,
+                          ),
+                          backgroundColor: Constants.color2.withOpacity(0.8),
+                        ),
+                        onPressed: () {
+                          cPage.setCurrentPage(0);
+                          circularNavigate(
+                            context,
+                            page: CoursesDataPage(indexOfSelectedCourse: index),
+                            offset: Offset(
+                              size.width / 2,
+                              size.height,
+                            ),
+                          );
+                        },
+                        child: const Text(
+                          'See Resources',
+                          style: const TextStyle(color: Colors.white),
+                          softWrap: true,
+                        ),
                       ),
                     ),
                   ),
@@ -238,6 +240,15 @@ class CarouselCard extends StatelessWidget {
                       ),
               ),
             ),
+          ),
+        ),
+        Positioned(
+          top: 15,
+          right: 30,
+          child: IconButton(
+            onPressed: () {},
+            icon: Icon(Icons.bookmark_add_outlined),
+            iconSize: 30,
           ),
         ),
       ],
